@@ -2,6 +2,44 @@
 
 - 所有笔记由软件：Typora编写
 - 由于时间有限，目录编写不完整，可以下载用Typora打开，会自动生成目录
+- 笔记会在完全整理后陆续上传，持续更新中
+
+# 你能学到什么？
+
+> 笔记代码全部由IDEA编写
+
+- JavaSE
+
+  - Java基础
+  - JavaAPI
+
+- JavaEE
+
+  - 前端知识
+  - MySQL知识
+  - Servlet相关知识
+
+- Linux
+
+- SSM
+
+  - Spring
+  - Spring MVC
+  - Mybatis
+
+- 互联网框架
+
+  - Maven
+  - Git
+  - Nginx
+  - SpringBoot
+  - SpringCloud
+  - Redis
+  - MyCat中间件
+  - 全文检索技术
+  - 消息队列
+
+  > **接下来会持续更新**
 
 # 目录
 
