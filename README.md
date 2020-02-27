@@ -7,9 +7,9 @@
 
 # 目录
 
-- [JavaSE](#JavaEE)
-  - [面向对象](#面向对象笔记)
-  - [Java-API](#API学习笔记)
+- [JavaSE](JavaEE)
+  - [面向对象](JavaSE/面向对象笔记)
+  - [Java-API](JavaSE/API学习笔记)
   - [Tomcat](#Tomcat)
 - [JavaEE](#JavaEE)
 - [Linux](#Linux)
