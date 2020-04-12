@@ -16,7 +16,7 @@
 >
 > 微信：sxh531845606
 >
-> 邮箱：sxhdrk@gmail.com/sxhdrk@foxmail.com
+> 邮箱：sxhdrk@gmail.com 	sxhdrk@foxmail.com
 
 # 目录
 
