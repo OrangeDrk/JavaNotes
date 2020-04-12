@@ -66,7 +66,7 @@
 - [SSM](SSM)
   - [框架概念](SSM/框架概念.md)
   - [Spring](SSM/Spring)
-  - [SpringMVC](SSM/Spring MVC)
+  - [SpringMVC](SSM/SpringMVC)
   - [Mybatis](SSM/Mybatis)
   - [SSM整合](SSM/SSM整合)
   - [log4j配置](SSM/log4j配置文件.md)
