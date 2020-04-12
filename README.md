@@ -51,7 +51,6 @@
 - [JavaSE](JavaSE)
   - [面向对象](JavaSE/面向对象笔记)
   - [Java-API](JavaSE/API学习笔记)
-  - [Tomcat](JavaSE/Tomcat)
 - [JavaEE](JavaEE)
   - [Web前端](JavaEE/1、Web前端)
   - [MySQL](JavaEE/2、MySQL)
