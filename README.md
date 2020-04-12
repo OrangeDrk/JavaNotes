@@ -1,52 +1,13 @@
-# Java后端学习
+# Java和大数据学习
 
-- 所有笔记由软件：Typora编写
+- 所有笔记由软件：**Typora**编写
 - 由于时间有限，目录编写不完整，可以下载用Typora打开，会自动生成目录
 - 笔记会在完全整理后陆续上传，持续更新中
 - 笔记中穿插了很多图片，方便直观的整理思路。图片较多，在线可能会出现加载缓慢情况，可以下载到本地浏览
 
-# 你能学到什么？
+# 目录
 
 > 笔记代码全部由IDEA编写
-
-- JavaSE
-
-  - Java基础
-  - JavaAPI
-- JavaEE
-
-  - 前端知识
-  - MySQL知识
-  - Servlet相关知识
-- Linux
-- SSM
-
-  - Spring
-  - Spring MVC
-  - Mybatis
-- 互联网框架
-
-  - Maven
-  - Git
-  - Nginx
-  - SpringBoot
-  - SpringCloud
-  - Redis
-  - MyCat中间件
-  - 全文检索技术
-  - 消息队列
-
-- 大数据知识
-  - 高并发
-  - Zookeeper
-  - Hadoop（HDFS-MapReduce）
-  - Hive
-  - HBase
-  - Flume
-  - Kafka
-  - Spark
-
-# 目录
 
 - [JavaSE](JavaSE)
   - [面向对象](JavaSE/面向对象笔记)
