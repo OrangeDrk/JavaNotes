@@ -13,21 +13,17 @@
 
   - Java基础
   - JavaAPI
-
 - JavaEE
 
   - 前端知识
   - MySQL知识
   - Servlet相关知识
-
 - Linux
-
 - SSM
 
   - Spring
   - Spring MVC
   - Mybatis
-
 - 互联网框架
 
   - Maven
@@ -40,27 +36,64 @@
   - 全文检索技术
   - 消息队列
 
-  > **接下来会持续更新**
+- 大数据知识
+  - 高并发
+  - Zookeeper
+  - Hadoop（HDFS-MapReduce）
+  - Hive
+  - HBase
+  - Flume
+  - Kafka
+  - Spark
 
 # 目录
 
-- [JavaSE](JavaEE)
+- [JavaSE](JavaSE)
   - [面向对象](JavaSE/面向对象笔记)
-    - [面向对象的引入](JavaSE/面向对象笔记/引入面向对象.md)
-    - [包&访问修饰符&常量&静态](JavaSE/面向对象笔记/包&访问修饰符&常量&静态.md)
-    - [方法](JavaSE/面向对象笔记/方法.md)
-    - [重载&构造&构造代码块&this](JavaSE/面向对象笔记/方法的重载&构造方法&this&构造代码块.md)
-    - [重写&Super&向上造型](JavaSE/面向对象笔记/Super、向上造型、方法的重写.md)
-    - [多态&内部类](JavaSE/面向对象笔记/多态&（成员、匿名）内部类.md)
-    - [数组&内存管理&继承](JavaSE/面向对象笔记/数组&内存管理&继承.md)
-    - [封装&抽象方法&抽象类&接口](JavaSE/面向对象笔记/封装&抽象方法&抽象类&接口.md)
-    - [JVM虚拟机](JavaSE/面向对象笔记/JVM虚拟机.md)
-    - [继承关系中创建对象顺序](JavaSE/面向对象笔记/在继承关系中创建子类对象程序的执行顺序.md)
-    - [排序算法](JavaSE/面向对象笔记/算法总结.md)
   - [Java-API](JavaSE/API学习笔记)
   - [Tomcat](JavaSE/Tomcat)
 - [JavaEE](JavaEE)
+  - [Web前端](JavaEE/Web前端)
+  - [MySQL](JavaEE/MySQL)
+  - [Java-Web](JavaEE/Java部分)
+  - [Tomcat](JavaEE/Tomcat)
+  - [HTTP协议详解](JavaEE/HTTP协议详解.md)
+  - [IDEA创建项目发布到Tomcat](JavaEE/IDEA创建Web项目并发布到Tomcat.md)
 - [Linux](Linux)
+  - [Linux安装部署](Linux/Linux安装部署)
+  - [Linux知识......](Linux/Linux知识)
+  - [Shell](Linux/Shell)
 - [SSM](SSM)
+  - [框架概念](SSM/框架概念.md)
+  - [Spring](SSM/Spring)
+  - [SpringMVC](SSM/Spring MVC)
+  - [Mybatis](SSM/Mybatis)
+  - [SSM整合](SSM/SSM整合)
+  - [log4j配置](SSM/log4j配置文件.md)
 - [互联网架构](互联网架构)
+  - [Maven](互联网架构/Maven)
+  - [Nginx](互联网架构/Nginx)
+  - [Git](互联网架构/Git)
+  - [SpringBoot](互联网架构/SpringBoot)
+  - [SpringCloud](互联网架构/SpringCloud)
+  - [Redis](互联网架构/Redis)
+  - [MyCat中间件](互联网架构/mycat中间件)
+  - [全文检索-ES](互联网架构/全文检索)
+- [大数据学习](大数据学习)
+  - [高并发基础](大数据学习/高并发基础)
+    - [NIO](大数据学习/高并发基础/NIO)
+    - [JUC](大数据学习/高并发基础/JUC)
+  - [ZooKeeper](大数据学习/ZooKeeper)
+  - [Hadoop](大数据学习/Hadoop)
+    - [Hadoop](大数据学习/Hadoop/Hadoop)
+    - [HDFS](大数据学习/Hadoop/HDFS)
+    - [MapReduce](大数据学习/Hadoop/MapReduce)
+    - [Yarn](大数据学习/Hadoop/Yarn)
+  - [Hive](大数据学习/Hive)
+  - [HBase](大数据学习/HBase)
+  - [Flume](大数据学习/Flume)
+  - [Kafka](大数据学习/Kafka)
+  - [Spark](大数据学习/Spark)
+
+
 
