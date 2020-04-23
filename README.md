@@ -74,8 +74,12 @@
   - [Spark](大数据学习/8、Spark)
 
 
-### 公众号
+# 公众号
 
 如果大家想要其他资源的话，可以关注我的公众号。
 
 ![我的公众号](https://note.youdao.com/yws/api/personal/file/BD45D16A2CFC43388664374BD852D271?method=download&shareKey=89487d5446ed26785397fdbc9203d00e)
+
+# 投稿
+
+如果大家有想投递的内容的话，可以在公众号私信或者发送邮件至sxhdrk@foxmail或者sxhdrk@gmail即可
