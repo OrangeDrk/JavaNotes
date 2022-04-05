@@ -1,0 +1,108 @@
+[TOC]
+
+
+
+分布式系统（distributed system）正变得越来越重要，大型网站几乎都是分布式的。
+
+分布式系统的最大难点，就是各个节点的状态如何同步。CAP 定理是这方面的基本定理，也是理解分布式系统的起点。
+
+本文介绍该定理。它其实很好懂，而且是显而易见的。下面的内容主要参考了 Michael Whittaker 的[文章](https://mwhittaker.github.io/blog/an_illustrated_proof_of_the_cap_theorem/)。
+
+
+
+## 一、分布式系统的三个指标
+
+![img](https://gitee.com/sxhDrk/images/raw/master/imgs/clip_image001.jpg)
+
+1998年，加州大学的计算机科学家 Eric Brewer 提出，分布式系统有三个指标。
+
+- Consistency
+- Availability
+- Partition tolerance
+
+它们的第一个字母分别是 C、A、P。
+
+Eric Brewer 说，这三个指标不可能同时做到。这个结论就叫做 CAP 定理。
+
+## 二、Partition tolerance
+
+先看 Partition tolerance，中文叫做"分区容错"。
+
+大多数分布式系统都分布在多个子网络。每个子网络就叫做一个区（partition）。分区容错的意思是，区间通信可能失败。比如，一台服务器放在中国，另一台服务器放在美国，这就是两个区，它们之间可能无法通信。
+
+![0  0 ](https://gitee.com/sxhDrk/images/raw/master/imgs/clip_image002.png)
+
+上图中，G1 和 G2 是两台跨区的服务器。G1 向 G2 发送一条消息，G2 可能无法收到。系统设计的时候，必须考虑到这种情况。
+
+一般来说，分区容错无法避免，因此可以认为 CAP 的 P 总是成立。CAP 定理告诉我们，剩下的 C 和 A 无法同时做到。
+
+## 三、Consistency
+
+Consistency 中文叫做"一致性"。意思是，写操作之后的读操作，必须返回该值。举例来说，某条记录是 v0，用户向 G1 发起一个写操作，将其改为 v1。
+
+![write VI \ 、  client ](https://gitee.com/sxhDrk/images/raw/master/imgs/clip_image004.png)
+
+接下来，用户的读操作就会得到 v1。这就叫一致性。
+
+![done \  client ](https://gitee.com/sxhDrk/images/raw/master/imgs/clip_image003.png)
+
+问题是，用户有可能向 G2 发起读操作，由于 G2 的值没有发生变化，因此返回的是 v0。G1 和 G2 读操作的结果不一致，这就不满足一致性了。
+
+![／ 7 、 ead  client  client ](https://gitee.com/sxhDrk/images/raw/master/imgs/clip_image005.png)
+
+为了让 G2 也能变为 v1，就要在 G1 写操作的时候，让 G1 向 G2 发送一条消息，要求 G2 也改成 v1。
+
+![G2  Gl  client ](https://gitee.com/sxhDrk/images/raw/master/imgs/clip_image007.png)
+
+这样的话，用户向 G2 发起读操作，也能得到 v1。
+
+![client ](https://gitee.com/sxhDrk/images/raw/master/imgs/clip_image006.png)
+
+## 四、Availability
+
+Availability 中文叫做"可用性"，意思是只要收到用户的请求，服务器就必须给出回应。
+
+用户可以选择向 G1 或 G2 发起读操作。不管是哪台服务器，只要收到请求，就必须告诉用户，到底是 v0 还是 v1，否则就不满足可用性。
+
+## 五、Consistency 和 Availability 的矛盾
+
+一致性和可用性，为什么不可能同时成立？答案很简单，因为可能通信失败（即出现分区容错）。
+
+如果保证 G2 的一致性，那么 G1 必须在写操作时，锁定 G2 的读操作和写操作。只有数据同步后，才能重新开放读写。锁定期间，G2 不能读写，没有可用性不。
+
+如果保证 G2 的可用性，那么势必不能锁定 G2，所以一致性不成立。
+
+综上所述，G2 无法同时做到一致性和可用性。系统设计时只能选择一个目标。如果追求一致性，那么无法保证所有节点的可用性；如果追求所有节点的可用性，那就没法做到一致性。
+
+ 
+
+## 六、问题
+
+> 问：在什么场合，可用性高于一致性？
+
+举例来说，发布一张网页到 CDN，多个服务器有这张网页的副本。后来发现一个错误，需要更新网页，这时只能每个服务器都更新一遍。
+
+一般来说，网页的更新不是特别强调一致性。短时期内，一些用户拿到老版本，另一些用户拿到新版本，问题不会特别大。当然，所有人最终都会看到新版本。所以，这个场合就是可用性高于一致性。
+
+
+
+
+
+## 七、总结
+
+1. Consistency - 一致性：
+
+2. 1. 通过某个节点的写操作结果对后面通过其它节点的读操作可见
+   2. 如果更新数据后，并发访问情况下可立即感知该更新，称为强一致性
+   3. 如果允许之后部分或者全部感知不到该更新，称为弱一致性
+   4. 若在之后的一段时间（通常该时间不固定）后，一定可以感知该更新，称为最终一致性
+
+3. Availability - 可用性：
+
+   1. 任何一个没有发生故障的节点必须在有限的时间内**返回合理的结果**
+
+4. Partition tolerance - 分区容忍性：
+
+   1. 部分节点宕机或者无法与其它节点通信时，各分区间还可保持分布式系统的功能
+
+7. 分布式系统中，CAP最多可以同时满足两个，而实际开发中，分区容忍性是必须保障的，因此很多情况下是在一致性和可用性之间进行权衡

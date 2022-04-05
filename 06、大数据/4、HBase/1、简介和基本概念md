@@ -1,0 +1,196 @@
+[TOC]
+
+
+
+
+
+# 简介
+
+## 概述
+
+1. HBase是Apache提供的一个==基于Hadoop的、开源的、有版本的、分布式的、可扩展的、能够存储大量数据的非关系型数据库==
+2. HBase是Doug Cutting在Yahoo工作期间，根据Google的论文《The BigTable》来实现的，所以HBase和BigTable的设计思想和实现原理一模一样，只是BigTable是用C语言实现的，而HBase使用Java实现的
+3. 区别于传统数据库的行存储，HBase面向列进行存储，底层基于Key-Value结构存储
+4. HBase能够提供低延迟的数据查询能力，其原因是底层充分利用了缓存机制以及复杂的数据结构和算法来实现
+
+
+
+
+
+## 行存储和列存储
+
+1. HBase允许对数据进行==随机==且实时的读取大量数据 - billions of rows X millions of columns
+
+2. HBase借鉴了列存储的思想，但是HBase并不完全是列存储
+
+   ![](https://gitee.com/sxhDrk/images/raw/master/imgs/HBase存储结构.png)
+
+3. HBase中不支持SQL语句，==提供了一套全新的操作指令==
+
+4. HBase不强调列，列可以动态增删
+
+5. HBase适合存储稀疏数据，例如半结构化数据，也可以存储结构化数据
+
+
+
+## 特点
+
+1. 分布式架构：HBase是通过集群来存储数据的，数据最终要落地到HDFS上
+2. 是一种NoSQL的非关系型数据库，不符合关系型数据库的范式
+3. 面向列存储，底层基于Key-Value结构
+4. 适合存储半结构化、非结构化的数据
+5. 适合存储稀疏的数据，空的数据不占用空间
+6. 提供实时的增删改查的能力，但是不提供严格的事务机制，只能在行级别提供事务
+
+
+
+## 关系型非关系型数据库
+
+1. **传统关系型数据库的缺陷：**
+
+   1. 高并发读写的瓶颈：Web      2.0网站要根据用户个性化信息来实时生成动态页面和提供动态信息，所以基本上无法使用静态化技术，因此数据库并发负载非常高，可能峰值会达到每秒上万次读写请求。关系型数据库应付上万次SQL查询还勉强顶得住，但是应付上万次SQL写数据请求，硬盘I/O却无法承受。其实对于普通的BBS网站，往往也存在相对高并发写请求的需求，例如，人人网的实时统计在线用户状态，记录热门帖子的点击次数，投票计数等，这是一个相当普遍的业务需求
+   2. 可扩展性的限制：在基于Web的架构中，数据库是最难以进行横向扩展的，当应用系统的用户量和访问量与日俱增时，数据库系统却无法像Web Server和App Server那样简单地通过添加更多的硬件和服务节点来扩展性能和负载能力。对于很多需要提供24小时不间断服务的网站来说，对数据库系统进行升级和扩展是非常痛苦的事情，往往需要停机维护和数据迁移，而不能通过横向添加节点的方式实现无缝扩展
+   3. 事务一致性的负面影响：事务执行的结果必须是使数据库从一个一致性状态变到另一个一致性状态。保证数据库一致性是指当事务完成时，必须使所有数据都具有一致的状态。在关系型数据库中，所有的规则必须应用到事务的修改上，以便维护所有数据的完整性，这随之而来的是性能的大幅度下降。很多Web系统并不需要严格的数据库事务，对读一致性的要求很低，有些场合对写一致性要求也不高。因此数据库事务管理成了高负载下的一个沉重负担
+   4. 复杂SQL查询的弱化：任何大数据量的Web系统都非常忌讳几个大表间的关联查询，以及复杂的数据分析类型的SQL查询，特别是SNS类型的网站，从需求以及产品设计角度就避免了这种情况的产生。更多的情况往往只是单表的主键查询，以及单表的简单条件分页查询，SQL的功能被极大地弱化了，所以这部分功能不能得到充分发挥
+
+2. **NoSQL数据库的优势:**
+
+   1. 扩展性强：NoSQL数据库种类繁多，但是一个共同的特点就是去掉关系型数据库的关系特性，数据之间是弱关系，非常容易扩展。一般来说，NoSql数据库的数据结构都是Key-Value字典式存储结构。例如，HBase、Cassandra等系统的水平扩展性能非常优越，非常容易实现支撑数据从TB到PB级别的过渡
+   2. 并发性能好：NoSQL数据库具有非常良好的读写性能，尤其在大数据量下，同样表现优秀。当然这需要有优秀的数据结构和算法做支撑
+   3. 数据模型灵活：NoSQL无须事先为要存储的数据建立字段，随时可以存储自定义的数据格式。而在关系型数据库中，增删字段是一件非常麻烦的事情。对于数据量非常大的表，增加字段简直就是一场噩梦。NoSQL允许使用者随时随地添加字段，并且字段类型可以是任意格式。
+
+
+
+# 基本概念
+
+## 概述
+
+> HBase以表的形式存储数据。
+>
+> 表有行和列族组成。列族划分为若干个列
+
+![](https://gitee.com/sxhDrk/images/raw/master/imgs/列存储和行存储.jpg)
+
+## Row Key - 行键
+
+1. HBase本质上也是一种Key-Value存储系统。Key相当于RowKey，Value相当于列族数据的集合
+
+2. 与NoSQL数据库们一样，RowKey是用索引记录的主键
+
+3. 访问HBase Table中的行，只有三种方式：
+
+   - 通过单个Row Key访问
+   - 通过Row Key的Range
+   - 全表扫描
+
+4. RowKey行键可以是任意字符串，在HBase内部，RowKey保存为字节数组
+
+   > 字符串最大长度：64KB，实际应用中长度一般为10-100byte
+
+5. 存储时，数据按照RowKey的==字典==排序存储。设计Key时，要充分考虑排序存储这个特性，将经常一起读取的行存储放到一起（位置相关性）
+
+
+
+## Column Family - 列族（列簇）
+
+1. HBase表中的每个列，都归属与某个列族
+
+2. 列族是表的Schema的一部分（列不是），==列族必须在使用表之前定义==
+
+3. 列名都以列族作为前缀。
+
+   - 例如：`courses:history`，`courses:math`。都属于`courses`这列族
+
+4. 访问控制、磁盘和内存的使用统计都是在列族层面进行的。
+
+   > 实际应用中，列族上的控制权限能帮助管理不同类型的应用：允许一些应用可以添加新的基本数据、一些应用可以读取基本数据并创建继承的列族、一些应用则只允许浏览数据（甚至可能因为隐私的原因不能浏览所有数据）
+
+
+
+## Cell(单元)与时间戳
+
+1. 由`{rowkey，column(=<family> + <label>),version}`唯一确定一个单元
+
+2. Cell中的数据是没有类型的，全部是字节码形式存储的
+
+3. 每个Cell都保存着同一份数据的多个版本，版本通过时间戳来索引
+
+4. 时间戳的类型是64位整形。
+
+   > 时间戳可以由HBase在数据写入时自动赋值，此时时间戳是精确到毫秒的当前系统时间。时间戳也可以由客户显式赋值
+
+5. 如果应用程序要避免数据版本冲突，就必须自己生成具有唯一性的时间戳
+
+6. 每个Cell中，不同版本的数据按照时间倒序排序，及最新的数据排在最前面
+
+7. 为了避免数据存在多版本造成的管理(存储、索引)负担，HBase提供了两种数据版本回收方式
+
+   - 保存数据的最后n个版本
+   - 保存最近一段时间内的版本（比如最近7天）
+
+   > 用户可以针对每个列族进行设置
+
+
+
+## Version - 版本
+
+1. 每一个数据都附带一个时间戳，这个时间戳称之为是数据的版本
+
+2. 如果不指定，那么HBase表只对外开放一个版本的数据，即最新的版本
+
+3. 如果需要获取多个版本的数据，那么需要在建表的时候指定版本开放的数量
+
+   - 建表：
+
+       ```mysql
+       create 'person', {NAME=>'basic', VERSIONS=>3}, {NAME=>'info', VERSIONS=>5}
+       ```
+   
+   - 查询：
+   
+       ```mysql
+       get 'person', 'p1', {COLUMN=>'basic:age', VERSIONS=>3}
+       ```
+   
+       
+   
+
+## namespace - 名称空间
+
+1. `namespace`类似于数据库的`database`，作用是用于区分同名表
+2. HBase启动的时候，自带了2个名称空间：`default`和`hbase`
+3. 如果建表的时候没有指定namespace，那么默认放在default下
+
+
+
+
+
+# 基本指令
+
+| 指令                                                         | 解释                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| status                                                       | 查看HBase的运行状态                                          |
+| version                                                      | 查看HBase的版本                                              |
+| whoami                                                       | 查看当前用户                                                 |
+| create  'person', {NAME=>'basic'},{NAME=>'info'},{NAME=>'other'}  <br />或者：  <br />create  'person', 'basic', 'info', 'other' | 建立了一个person表，包含basic、info和other三个列族           |
+| put  'person', 'p1', 'basic:name', 'Helen'                   | 向person表中的basic列族的name列添加一个行键为p1的值为Helen的数据 |
+| get  'person', 'p1'                                          | 查看person表中行键为p1对应的值                               |
+| get  'person', 'p1', {COLUMN=>['basic','info']}  <br />或者：  <br />get  'person', 'p1', 'basic', 'info' | 查看person表中行键为p1对应的basic列族和info列族的值          |
+| get  'person', 'p1', {COLUMN=>['basic:name', 'info:height']}  <br />或者：  <br />get  'person', 'p1', 'basic:name', 'info:height' | 查看指定列的值                                               |
+| scan  'person'                                               | 查询整个表                                                   |
+| scan  'person', {COLUMNS=>['basic', 'info']}                 | 查询person表中basic列族和info列族的值                        |
+| scan  'person', {COLUMNS=>['basic:name', 'info:weight']}     | 查询person表中basic列族name列和info列族weight列的值          |
+| delete  'person', 'p1', 'other:addr'                         | 删除person表中p1行键对应的other列族addr列的值                |
+| deleteall  'person', 'p1'                                    | 删除一行                                                     |
+| truncate  'person'                                           | 摧毁重建表                                                   |
+| describe  'person'  <br />或者：  <br />desc  'person'       | 描述这个表的结构                                             |
+| list                                                         | 查看所有名称空间下的表                                       |
+| disable  'person'                                            | 禁用表                                                       |
+| drop  'person'                                               | 删除表                                                       |
+| create  'person', {NAME=>'basic', VERSIONS=>3}, {NAME=>'info',  VERSIONS=>5} | 建立一个person表包含basic列族和info列族，其中basic列族允许对外提供3个版本的数据，info列族允许对外提供5个版本的数据 |
+| get  'person', 'p1', {COLUMN=>'basic:age', VERSIONS=>3}      | 获取basic列族age列最近3个版本的数据                          |
+| exists  'student'                                            | 判断一个表是否存在                                           |
+| create_namespace  'hbasedemo'                                | 创建名称空间hbasedemo                                        |
+| create  'hbasedemo:person', 'basic', 'info'                  | 在hbasedemo下新建了一张person表                              |
+| list_namespace_tables  'hbasedemo'                           | 查看指定名称空间下的表                                       |
+| drop_namespace  'hbasedemo'                                  | 删除指定的名称空间，要求这个空间下没有表                     |
